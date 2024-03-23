@@ -3,49 +3,42 @@ from fastapi.security import APIKeyHeader, APIKeyQuery
 import json
 import uvicorn
 import requests
-
+import testAPI
 
 api_keys = [
-    "my_api_key"
+    "4ae9400a1eda4f14b3e7227f24b74b44"
 ]
 
-api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
 
-
-def get_api_key(
-        api_key_header: str = Security(api_key_header),
-) -> str:
-    if api_key_header in api_keys:
-        return api_key_header
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Invalid or missing API Key",
-    )
 
 
 app = FastAPI()
 
 
 @app.get("/public")
-def public():
-    """a public endpoint that does not require any authentication."""
-    return "Public Endpoint"
+#def public():
+   # """a public endpoint that does not require any authentication."""
+   # return "Public Endpoint"
 
+@app.get("/store")
+def get_store_details():
+    url = "https://apimdev.wakefern.com/mockexample/V1/getStoreDetails"
+    header = {'Ocp-Apim-Subscription-Key': '4ae9400a1eda4f14b3e7227f24b74b44', "User-Agent": "PostmanRuntime/7.36.3",
+               "Content-Type": "application/json"}
+    response = requests.get(url, headers=header)
+    print(response)
+    return response.text
 
-@app.get("/protected")
-def private(api_key: str = Security(get_api_key)):
-    """a private endpoint that requires a valid API key to be provided."""
-    return f"Private Endpoint. API Key: {api_key}"
+@app.get("/recipe")
+def get_recipe_details():
+    url = "https://api.edamam.com/api/recipes/v2"
+    header = {'app_key': '813286124be5b0c3817b0fb7f8034476',
+               "Content-Type": "application/json"}
+    response = requests.get(url, headers=header)
+    print(response.content)
+    return response.content
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8001)
     
-def main():
-    url = "https://apimdev.wakefern.com/mockexample/V1/getItemDetails"  # Replace this with your API endpoint
-    api_key = "4ae9400a1eda4f14b3e7227f24b74b44"  # Replace this with your subscription key
-   
-    params = {'Ocp-Apim-Subscription-Key': '4ae9400a1eda4f14b3e7227f24b74b44'}
-
-    response = requests.get(url, params=params)
-    print(response.text)
