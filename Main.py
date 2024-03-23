@@ -28,7 +28,7 @@ app = FastAPI()
 
 @app.get("/public")
 def public():
-    """A public endpoint that does not require any authentication."""
+    """a public endpoint that does not require any authentication."""
     return "Public Endpoint"
 
 
