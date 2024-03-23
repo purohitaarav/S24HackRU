@@ -45,7 +45,7 @@ def main():
     url = "https://apimdev.wakefern.com/mockexample/V1/getItemDetails"  # Replace this with your API endpoint
     api_key = "4ae9400a1eda4f14b3e7227f24b74b44"  # Replace this with your subscription key
    
-    params = {'api_key': 'YOUR_API_KEY'}
+    params = {'Ocp-Apim-Subscription-Key': '4ae9400a1eda4f14b3e7227f24b74b44'}
 
     response = requests.get(url, params=params)
     print(response.text)
