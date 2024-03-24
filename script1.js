@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 function getStoreDetails() {
     fetch('http://localhost:8002/store')
         .then(response => response.json())
@@ -20,9 +20,6 @@ function getItemDetails() {
 
 
 
-
-
-=======
 document.getElementById('recipeForm').addEventListener('submit', function(event) {
         event.preventDefault();
     
@@ -107,4 +104,3 @@ document.getElementById('recipeForm').addEventListener('submit', function(event)
             recipeImage.innerHTML = 'No Image Available';
         }
     }
->>>>>>> Stashed changes

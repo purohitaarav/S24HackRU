@@ -25,51 +25,143 @@
         </form>
 
         <div id="result"></div>
+</body>
 
-        <button class="right-button" onclick="location.href='http://127.0.0.1:5500/geoCoding.html';">Find Nearest Location Near You!</button>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Distance Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
 
-<<<<<<< Updated upstream
-            const recipeName = document.getElementById('recipe').value;
-            fetchRecipe(recipeName);
-        });
+    #distanceCalculator {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        function fetchRecipe(recipeName) {
-            fetch(`http://localhost:8002/item?recipe=${encodeURIComponent(recipeName)}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
 
-                })
-                .then(data => {
-                    displayResult(data);
-                })
-                .catch(error => {
-                    console.error('There was a problem with your fetch operation:', error);
-                    // Display error message to the user
-                    document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
-                });
-        }
+    input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div id="distanceCalculator">
+    <h2>City Distance Calculator</h2>
+    <form id="distanceForm">
+        <input type="text" id="city1" placeholder="Enter City 1">
+        <input type="text" id="city2" placeholder="Enter City 2">
+        <input type="submit" value="Calculate Distance">
+    </form>
+    <div id="result"></div>
+</div>
 
-        function displayResult(data) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = ''; // Clear previous results
-            if (Object.keys(data).length === 0) {
-                resultDiv.innerHTML = '<p>No items found for the given recipe.</p>';
-            } else {
-                const itemList = document.createElement('ul');
-                for (const [itemName, itemInfo] of Object.entries(data)) {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${itemName}: ${itemInfo.Price}`;
-                    itemList.appendChild(listItem);
-                }
-                resultDiv.appendChild(itemList);
-            }
-        }
-    </script>
-=======
-    </div>
->>>>>>> Stashed changes
+<script>
+    document.getElementById('distanceForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        getStoresNearMe()
+    });
+
+    function calculateDistance(store) {
+        var city1 = document.getElementById('city1').value;
+        var city2 = store;
+
+        console.log(city1)
+        var distance = calculateHaversineDistance(1, 2, 3, 4);
+        document.getElementById('result').innerText = 'Distance between ' + city1 + ' and ' + city2 + ': ' + distance.toFixed(2)*0.62 + ' miles';
+
+        var geocodingUrl1 = 'https://nominatim.org/release-docs/latest/api/search?format=json&q=' + encodeURIComponent(city1);
+        var geocodingUrl2 = 'https://nominatim.org/release-docs/latest/api/search?format=json&q=' + encodeURIComponent(city2);
+        console.log(geocodingUrl1)
+
+
+        // fetch(geocodingUrl1)
+        //     .then(response1 => response1.json())
+        //     .then(data1 => {
+        //         if (data1 && data1.length > 0) {
+        //             var lat1 = data1[0].lat;
+        //             var lon1 = data1[0].lon;
+        //             console.log(geocodingUrl2)
+        //             fetch(geocodingUrl2)
+        //                 .then(response2 => response2.json())
+        //                 .then(data2 => {
+        //                     if (data2 && data2.length > 0) {
+        //                         var lat2 = data2[0].lat;
+        //                         var lon2 = data2[0].lon;
+                               
+        //                     } else {
+        //                         document.getElementById('result').innerText = 'Error: City 2 not found';
+        //                     }
+        //                 })
+        //                 .catch(error => {
+        //                     console.error('Error fetching geocoding data for City 2:', error);
+        //                     document.getElementById('result').innerText = 'Error fetching geocoding data for City 2';
+        //                 });
+        //         } else {
+        //             document.getElementById('result').innerText = 'Error: City 1 not found';
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching geocoding data for City 1:', error);
+        //         document.getElementById('result').innerText = 'Error fetching geocoding data for City 1';
+        //     });
+    }
+
+    function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // Radius of the Earth in kilometers
+        var dLat = (lat2 - lat1) * Math.PI / 180;
+        var dLon = (lon2 - lon1) * Math.PI / 180;
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var distance = R * c;
+        return distance;
+    }
+
+    function getStoresNearMe () {
+        fetch("http://0.0.0.0:8002/store")
+            .then((response) => response.json())
+            .then((stores) =>  processDistances(stores));
+    }
+
+    function processDistances(arr) {
+        //make object ResultsObject
+        // {'Name': May's Landing, 'Distance: 'distances from calc''}
+        
+        //for loop through stores finding distances
+        let min = calculateDistance(arr[0]);
+        let name = arr[0];
+        // for(let i = 1; i<arr.length; i++ ){
+        //     if(calculateDistance(arr[i])<min){
+        //         min = calculateDistance(arr[i]);
+        //         name = arr[i];
+        //     }
+        // }
+        console.log(name);
+        return name;
+    }
+</script>
 </body>
 </html>
+
