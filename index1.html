@@ -75,7 +75,7 @@
                 const itemList = document.createElement('ul');
                 for (const [itemName, itemInfo] of Object.entries(data)) {
                     const listItem = document.createElement('li');
-                    listItem.textContent = `${itemName}: $${itemInfo.Price}`;
+                    listItem.textContent = `${itemName}: ${itemInfo.Price}`;
                     itemList.appendChild(listItem);
                 }
                 resultDiv.appendChild(itemList);

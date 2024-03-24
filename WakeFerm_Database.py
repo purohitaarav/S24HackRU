@@ -1,11 +1,21 @@
 
 from fastapi import HTTPException, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 import uvicorn
 import json
 import Recipes
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+
 
 API_KEY = "4ae9400a1eda4f14b3e7227f24b74b44"
 
