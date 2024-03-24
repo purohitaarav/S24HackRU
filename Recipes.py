@@ -22,8 +22,8 @@ app = FastAPI()
 
 
 @app.get("/recipe")
-def get_recipe_details():
-    food = "pizza"
+def get_recipe_details(search_for):
+    food = search_for
     url = 'https://api.edamam.com/api/recipes/v2?type=public&beta=false&q={food}&app_id=ac2cee73&app_key=813286124be5b0c3817b0fb7f8034476'.format(food = food)
     response = requests.get(url)
     data = json.loads(response.content)
