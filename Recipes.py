@@ -23,11 +23,17 @@ app = FastAPI()
 
 @app.get("/recipe")
 def get_recipe_details():
-    food = "chicken"
+    food = "pizza"
     url = 'https://api.edamam.com/api/recipes/v2?type=public&beta=false&q={food}&app_id=ac2cee73&app_key=813286124be5b0c3817b0fb7f8034476'.format(food = food)
     response = requests.get(url)
-    return json.loads(response.content)
-
+    data = json.loads(response.content)
+    # Check if 'hits' key exists and it has at least one item
+    if 'hits' in data and len(data['hits']) > 0:
+        # Extract ingredients from the first recipe
+        ingredients = data['hits'][0]['recipe']['ingredients']
+        return ingredients
+    else:
+        return {"message": "No recipe found for {}".format(food)}
 
     
 
