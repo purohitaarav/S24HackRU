@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Fetcher</title>
+    <style>
+        /* Simple styling for demonstration purposes */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 300px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form id="recipeForm">
+        <label for="recipe">Enter Recipe:</label>
+        <input type="text" id="recipe" name="recipe">
+        <button type="submit">Fetch Recipe</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('recipeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const recipeName = document.getElementById('recipe').value;
+            fetchRecipe(recipeName);
+        });
+
+        function fetchRecipe(recipeName) {
+            fetch(`http://localhost:8002/item?recipe=${encodeURIComponent(recipeName)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayResult(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with your fetch operation:', error);
+                    // Display error message to the user
+                    document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
+                });
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Clear previous results
+            if (Object.keys(data).length === 0) {
+                resultDiv.innerHTML = '<p>No items found for the given recipe.</p>';
+            } else {
+                const itemList = document.createElement('ul');
+                for (const [itemName, itemInfo] of Object.entries(data)) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${itemName}: $${itemInfo.Price}`;
+                    itemList.appendChild(listItem);
+                }
+                resultDiv.appendChild(itemList);
+            }
+        }
+    </script>
+</body>
+</html>
