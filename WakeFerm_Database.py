@@ -6,6 +6,8 @@ import uvicorn
 import json
 import Recipes
 
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -37,8 +39,17 @@ def get_store_details():
     header = {'Ocp-Apim-Subscription-Key': '4ae9400a1eda4f14b3e7227f24b74b44', "User-Agent": "PostmanRuntime/7.36.3",
                "Content-Type": "application/json"}
     response = requests.get(url, headers=header)
-    print(response)
-    return json.loads(response.text)
+   
+    if response.status_code == 200:
+        stores = response.json()
+        city_state_array = []
+        for store in stores:
+            city_state_array.append(f"{store['City']}, {store['State']}")
+        return city_state_array
+    else:
+        raise HTTPException(status_code=response.status_code, detail="Failed to fetch store details")
+
+
     
 @app.get("/item")
 def get_item_details(recipe: str = "chicken"):

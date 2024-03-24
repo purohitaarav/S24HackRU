@@ -16,3 +16,8 @@ function getItemDetails() {
         })
         .catch(error => console.error('Error:', error));
 }
+
+
+
+
+
