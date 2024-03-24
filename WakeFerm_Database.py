@@ -39,7 +39,7 @@ def get_store_details():
     # Check if 'hits' key exists and it has at least one item
     if 'hits' in data and len(data['hits']) > 0:
         # Extract ingredients from the first recipe
-        Description = data['hits'][0]['item']['d']
+        Description = data['hits'][0]['item']['Description']
         return Description
     else:
         return {"message": "No item found"}
