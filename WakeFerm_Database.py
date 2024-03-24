@@ -69,7 +69,7 @@ def get_item_details(recipe: str = "chicken"):
             found = False
             for item in data:
                 if item['Description'].lower() in ingredients["food"].lower():
-                    response[ingredients["food"]] = {"Price": item['Price']}
+                    response[ingredients["food"]] = {"Price": item['Price'], "Digital Coupon": item['Digital Coupon']}
                     found = True
                     break
                 if not found:
