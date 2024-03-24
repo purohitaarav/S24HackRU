@@ -55,9 +55,14 @@ def get_item_details(recipe: str = "chicken"):
         response = {}
         recipes = Recipes.get_recipe_details(recipe)
         for ingredients in recipes:
+            found = False
             for item in data:
                 if item['Description'].lower() in ingredients["food"].lower():
-                    response[item['Description']] = { "Price": item['Price']}
+                    response[ingredients["food"]] = {"Price": item['Price']}
+                    found = True
+                    break
+                if not found:
+                     response[ingredients["food"]] = {ingredients["food"] + " cannot be found in a Wayfern store near you"}
         #for item in data:
            # response[item['Description']] = {
             #    "Price": item['Price'],
