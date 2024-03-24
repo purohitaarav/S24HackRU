@@ -1,49 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<head>
+    <div class="container">
+        <img class = "logo" src="https://upload.wikimedia.org/wikipedia/en/1/1c/Wakefern_Food_Corporation_logo.svg" alt="Wakefern Food Corporation Logo" width="200">
+    </div>
+</head>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Fetcher</title>
-    <style>
-        /* Simple styling for demonstration purposes */
-        body {
-            font-family: Arial, sans-serif;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            padding: 8px;
-            width: 300px;
-        }
-        button {
-            padding: 8px 16px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #result {
-            margin-top: 20px;
-        }
-    </style>
+    <title>Reefficiency</title>
+    <link rel="stylesheet" href="styles1.css">
+    <script defer src="script1.js"></script>
 </head>
 <body>
-    <form id="recipeForm">
-        <label for="recipe">Enter Recipe:</label>
-        <input type="text" id="recipe" name="recipe">
-        <button type="submit">Fetch Recipe</button>
-    </form>
+    <div class="container">
+        <h1>Refficiency</h1>
+        <p>Welcome, college users! Find any ingredients you want based on a recipe you input.</p>
+        <form id="recipeForm">
+            <label for="recipe">Enter Recipe:</label>
+            <input type="text" id="recipe" name="recipe">
+            <button type="submit">Fetch Recipe</button>
+            <div id="recipe-image" class="recipe-image" style="margin-top: 16px;"></div>
+        </form>
 
-    <div id="result"></div>
+        <div id="result"></div>
 
-    <script>
-        document.getElementById('recipeForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
+        <button class="right-button" onclick="location.href='http://127.0.0.1:5500/geoCoding.html';">Find Nearest Location Near You!</button>
 
+<<<<<<< Updated upstream
             const recipeName = document.getElementById('recipe').value;
             fetchRecipe(recipeName);
         });
@@ -83,5 +68,8 @@
             }
         }
     </script>
+=======
+    </div>
+>>>>>>> Stashed changes
 </body>
 </html>
