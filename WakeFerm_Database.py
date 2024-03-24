@@ -70,7 +70,7 @@ def get_api_response(url):
 @app.get("/store")
 def get_store_details():
     url = "https://apimdev.wakefern.com/mockexample/V1/getStoreDetails"
-<<<<<<< HEAD
+
     header = {'Ocp-Apim-Subscription-Key': '4ae9400a1eda4f14b3e7227f24b74b44', "User-Agent": "PostmanRuntime/7.36.3",
                "Content-Type": "application/json"}
     response = requests.get(url, headers=header)
@@ -99,7 +99,7 @@ def get_item_details():
         return {"message": "No items found"}
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8002)
-=======
+
     store_data = get_api_response(url)
     return store_data
 
